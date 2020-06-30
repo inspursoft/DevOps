@@ -1,0 +1,5 @@
+[docker-ce-stable]
+name=test
+baseurl=http://10.110.25.227/docker-ce
+enabled=1
+gpgcheck=0

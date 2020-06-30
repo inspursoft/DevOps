@@ -1,0 +1,17 @@
+version: '3'
+services:
+  install:
+    image: ansible_install:1
+    volumes:
+      - /ansible_k8s/pren-env:/ansible_k8s/pren-env
+      - /ansible_k8s/hostsdir:/ansible_k8s/hostsdir
+      - /tmp/board:/tmp/
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        /ansible_k8s/ssh.sh ${PASS} ${SSH_IP}
+        cd /ansible_k8s
+        ansible-playbook -i hostsdir/${HOST_FILE} ${YML_FILE}.yml >> /tmp/t.txt
+    stdin_open: true
+    tty: true

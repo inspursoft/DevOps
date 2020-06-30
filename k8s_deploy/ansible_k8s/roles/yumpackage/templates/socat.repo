@@ -1,0 +1,5 @@
+[socat]
+name=socat
+baseurl=file:///tmp/rpm/socat
+enabled=1
+gpgcheck=0

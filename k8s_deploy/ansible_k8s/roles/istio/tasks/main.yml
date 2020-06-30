@@ -1,0 +1,32 @@
+---
+- name: mkdir -p /tmp/istio
+  shell: mkdir -p /tmp/istio
+
+- name: setenforce 
+  shell: setenforce 0
+  ignore_errors: yes
+    
+- name: copy istioctl file
+  copy: src={{role_path}}/../../pre-env/istio/istioctl dest=/usr/bin mode=755
+
+- name: copy istio-1.0.5-linux.tar.gz file
+  copy: src={{role_path}}/../../pre-env/istio/istio-1.0.5-linux.tar.gz dest=/tmp/istio mode=755
+
+- name: tar -zxvf istio-1.0.5-linux.tar.gz
+  shell: tar zxvf /tmp/istio/istio-1.0.5-linux.tar.gz -C /tmp/istio
+
+- name: copy istio.yaml to /var/lib/yaml
+  template: src={{role_path}}/templates/{{item}} dest=/var/lib/yaml/
+  with_items:
+    - "istio.yaml"
+
+- name: kubectl create namespace istio-system
+  shell: kubectl create namespace istio-system
+  ignore_errors: yes
+
+- name: kubectl create -f /var/lib/yaml/istio.yaml 
+  shell: kubectl create -f /var/lib/yaml/{{item}}
+  with_items:
+    - "istio.yaml"
+  ignore_errors: yes
+

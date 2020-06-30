@@ -1,0 +1,9 @@
+---
+
+- name: all host run this task
+  shell: hostname
+  register: info
+
+- name: modify hostname
+  shell: hostnamectl set-hostname {{ ansible_default_ipv4['address'] }} 
+  when: info['stdout'] == "localhost.localdomain"  

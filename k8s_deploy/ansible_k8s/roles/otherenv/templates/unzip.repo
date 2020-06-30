@@ -1,0 +1,5 @@
+[unzip]
+name=unzip
+baseurl=file:///tmp/rpm/unzip
+enabled=1
+gpgcheck=0

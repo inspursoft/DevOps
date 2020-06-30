@@ -1,0 +1,10 @@
+{
+  "live-restore": true,
+  "insecure-registries":["0.0.0.0/0"],
+  "graph": "{{docker_dir}}",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m"
+  }
+
+}

@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - {role: set_fact}
+- hosts: masters
+  roles:
+    - {role: kubeedge-cloud}
+    - {role: addtoken}
+
+- hosts: nodes
+  roles:
+    - kubeedge-edge
+    #- 2k

@@ -1,0 +1,5 @@
+[k8s]
+name=k8s
+baseurl=file:///tmp/rpm/k8s
+enabled=1
+gpgcheck=0

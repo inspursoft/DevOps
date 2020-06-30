@@ -1,0 +1,5 @@
+[docker-ce]
+name=docker-ce
+baseurl=file:///tmp/rpm/docker-ce
+enabled=1
+gpgcheck=0

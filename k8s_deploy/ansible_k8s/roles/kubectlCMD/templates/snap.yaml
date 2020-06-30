@@ -1,0 +1,208 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snap
+  namespace: kube-system
+  labels:
+    app: snap
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: snap
+  labels:
+    app: snap
+subjects:
+- kind: ServiceAccount
+  name: snap
+  namespace: kube-system
+  apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: ""
+---
+apiVersion: v1
+data:
+  core.json: '{"version":1,"start":true,"schedule":{"type":"simple","interval":"10s"},"max-failures":10,"workflow":{"collect":{"metrics":{"/grafanalabs/kubestate/*":{}},"process":null,"config":{"/grafanalabs/kubestate":{"incluster":true}},"publish":[{"plugin_name":"graphite","config":{"prefix_tags":"","prefix":"snap.cluster","server":"{{board_ip_address}}","port":2003}}]}}}'
+kind: ConfigMap
+metadata:
+  name: snap-tasks-kubestate
+  namespace: kube-system
+
+---
+
+apiVersion: v1
+data:
+  cadvisor.json: '{"version":1,"start":true,"schedule":{"type":"streaming"},"workflow":{"collect":{"metrics":{"/grafanalabs/cadvisor/container/*/*/*/cpu/total/usage":{},"/grafanalabs/cadvisor/container/*/*/*/mem/usage":{},"/grafanalabs/cadvisor/container/*/*/*/fs/*":{},"/grafanalabs/cadvisor/container/*/*/*/diskio/*":{},"/grafanalabs/cadvisor/container/*/*/*/iface/*/out_bytes":{},"/grafanalabs/cadvisor/container/*/*/*/iface/*/in_bytes":{},"/grafanalabs/cadvisor/container/*/*/*/tcp/*":{},"/grafanalabs/cadvisor/container/*/*/*/tcp6/*":{}},"publish":[{"plugin_name":"graphite","config":{"prefix_tags":"","prefix":"snap.cluster.<%NODE%>","server":"{{board_ip_address}}","port":2003}}]}}}'
+  core.json: '{"version":1,"start":true,"schedule":{"type":"simple","interval":"10s"},"max-failures":10,"workflow":{"collect":{"metrics":{"/intel/procfs/cpu/all/*":{},"/intel/procfs/meminfo/mem_available":{},"/intel/procfs/meminfo/mem_available_perc":{},"/intel/procfs/meminfo/mem_free":{},"/intel/procfs/meminfo/mem_free_perc":{},"/intel/procfs/meminfo/mem_total":{},"/intel/procfs/meminfo/mem_total_perc":{},"/intel/procfs/meminfo/mem_used":{},"/intel/procfs/meminfo/mem_used_perc":{},"/intel/procfs/iface/*/bytes_recv":{},"/intel/procfs/iface/*/bytes_sent":{},"/intel/procfs/iface/*/packets_recv":{},"/intel/procfs/iface/*/packets_sent":{},"/intel/procfs/iface/*/errs_recv":{},"/intel/procfs/iface/*/errs_sent":{},"/intel/iostat/device/*/%util":{},"/intel/iostat/device/*/rkB_per_sec":{},"/intel/iostat/device/*/wkB_per_sec":{},"/intel/iostat/device/ALL/r_per_sec":{},"/intel/iostat/device/ALL/w_per_sec":{},"/intel/procfs/load/min1_rel":{}},"config":{"/intel/procfs":{"proc_path":"/proc_host","keep_original_mountpoint":false}},"publish":[{"plugin_name":"graphite","config":{"prefix_tags":"","prefix":"snap.cluster.<%NODE%>","server":"{{board_ip_address}}","port":2003}}]}}}'
+kind: ConfigMap
+metadata:
+  name: snap-tasks
+  namespace: kube-system
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: snap-collector
+  name: snap-kubestate-deployment
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snap-collector
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: snap-collector
+    spec:
+      serviceAccountName: snap
+      containers:
+      - env:
+        - name: SNAP_PORT
+          value: "8383"
+        - name: SNAP_URL
+          value: http://localhost:8383
+        - name: SNAP_LOG_LEVEL
+          value: "3"
+        image: raintank/snap_k8s:v23
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /opt/snap/bin/snaptel task list |grep Disabled | awk 'BEGIN {err = 0}
+              length($1) > 0 { err = 1} END {exit err}'
+          failureThreshold: 3
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: snap
+        ports:
+        - containerPort: 8383
+          hostPort: 8383
+          name: snap-api
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /opt/snap/tasks
+          name: snap-tasks
+      restartPolicy: Always
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: snap-tasks-kubestate
+        name: snap-tasks
+
+---
+
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    daemon: snapd
+  name: snap
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: snap-collector
+      daemon: snapd
+  template:
+    metadata:
+      labels:
+        app: snap-collector
+        daemon: snapd
+      name: snap
+    spec:
+      serviceAccountName: snap
+      containers:
+      - args:
+        - /opt/snap/sbin/snapteld
+        command:
+        - /usr/local/bin/start.sh
+        env:
+        - name: PROCFS_MOUNT
+          value: /proc_host
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: SNAP_PORT
+          value: "8282"
+        - name: SNAP_URL
+          value: http://localhost:8282
+        - name: SNAP_LOG_LEVEL
+          value: "3"
+        image: raintank/snap_k8s:v23
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /opt/snap/bin/snaptel task list |grep Disabled | awk 'BEGIN {err = 0}
+              length($1) > 0 { err = 1} END {exit err}'
+          failureThreshold: 3
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: snap
+        ports:
+        - containerPort: 8282
+          hostPort: 8282
+          name: snap-api
+          protocol: TCP
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /sys/fs/cgroup
+          name: cgroup
+        - mountPath: /var/run/docker.sock
+          name: docker-sock
+        - mountPath: /var/lib/docker
+          name: fs-stats
+        - mountPath: /usr/local/bin/docker
+          name: docker
+        - mountPath: /proc_host
+          name: proc
+        - mountPath: /opt/snap/tasks
+          name: snap-tasks
+      hostNetwork: true
+      hostPID: true
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /dev
+        name: dev
+      - hostPath:
+          path: /sys/fs/cgroup
+        name: cgroup
+      - hostPath:
+          path: /var/run/docker.sock
+        name: docker-sock
+      - hostPath:
+          path: /var/lib/docker
+        name: fs-stats
+      - hostPath:
+          path: /usr/bin/docker
+        name: docker
+      - hostPath:
+          path: /proc
+        name: proc
+      - configMap:
+          defaultMode: 420
+          name: snap-tasks
+        name: snap-tasks

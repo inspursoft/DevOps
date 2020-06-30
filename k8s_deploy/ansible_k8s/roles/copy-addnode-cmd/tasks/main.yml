@@ -1,0 +1,7 @@
+---
+
+- name: copy image to localion
+  copy: src=/tmp/{{master_ip_address}}/tmp/t.sh dest=/tmp/ mode=755
+- name: run add node command
+  shell: /tmp/t.sh 
+ 
