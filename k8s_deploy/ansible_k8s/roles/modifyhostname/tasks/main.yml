@@ -1,0 +1,6 @@
+---
+- name: Set IP address variables
+  set_fact:
+    ip_address: "{{ansible_default_ipv4.address}}"
+- name: modify hostname
+  template: src={{role_path}}/templates/hostname dest=/etc/hostname

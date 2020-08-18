@@ -1,0 +1,5 @@
+---
+- hosts: masters,nodes
+  roles:
+    - reset_k8s
+

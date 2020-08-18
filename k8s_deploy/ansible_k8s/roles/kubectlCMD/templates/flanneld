@@ -1,0 +1,3 @@
+FLANNEL_OPTIONS=""
+FLANNEL_ETCD_ENDPOINTS="http://{{master_ip_address}}:2379"
+FLANNEL_ETCD_PREFIX="/atomic.io/network"

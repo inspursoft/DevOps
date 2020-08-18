@@ -1,0 +1,5 @@
+[nfs-chrony]
+name=nfs-chrony
+baseurl=file:///tmp/rpm/nfs-chrony
+enabled=1
+gpgcheck=0

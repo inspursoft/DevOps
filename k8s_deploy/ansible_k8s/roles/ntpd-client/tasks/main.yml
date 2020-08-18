@@ -1,0 +1,20 @@
+---
+- name: install chrony
+  yum: name=ntpdate state=latest
+
+- name: stop ntpd
+  service: name=ntpd state=stopped
+  ignore_errors: yes
+
+- name: remove ntp
+  yum: name=ntp state=absent
+
+- name: ntpdate 
+  shell: ntpdate {{master_ip_address}}
+  ignore_errors: yes
+
+- name: crontab
+  cron: name="root" minute=*/1 hour=* day=* month=* weekday=* job="/usr/sbin/ntpdate -u {{ master_ip_address }} &>/dev/null"
+
+#- name: crontab
+#  shell: echo "* * * * * root /usr/sbin/ntpdate -u {{ master_ip_address }} &>/dev/null" >> /etc/crontab  

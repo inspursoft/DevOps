@@ -1,0 +1,21 @@
+---
+- name: install nfs-utils
+  yum: name=nfs-utils state=latest
+- name: install rpcbind
+  yum: name=rpcbind state=latest
+
+- name: enable nfs
+  service: name=rpcbind enabled=yes
+- name: start nfs
+  service: name=rpcbind state=started
+
+- copy:
+    src: "{{role_path}}/files/nfsserver.sh"
+    dest: /var/nfsserver.sh
+    owner: root
+    group: root
+    mode: 755
+
+- name: run nfs script
+  shell: /var/nfsserver.sh {{nfs_dir}}
+  

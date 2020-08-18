@@ -1,0 +1,87 @@
+---
+
+- name: create /etc/kubernetes/{jupyterhub}
+  file: path=/etc/kubernetes/{{item}} state=directory mode=755
+  with_items:
+    - "jupyterhub"
+
+- name: copy config files on master
+  template: src={{role_path}}/templates/{{item}} dest=/etc/kubernetes/jupyterhub mode=755
+  with_items:
+    - "nfs-class.yaml"
+    - "nfs-provisioner.yaml"
+    - "rbac-config.yaml"
+
+- name: copy systemd files to master
+  template: src={{role_path}}/../../group_vars/{{item}} dest=/etc/kubernetes/jupyterhub
+  with_items:
+    - "config.yaml"
+
+- name: copy startup file
+  copy: src={{role_path}}/../../files/k8s-loadimages.service dest=/usr/lib/systemd/system mode=755
+- name: copy startup script
+  copy: src={{role_path}}/../../files/k8s-loadimages dest=/usr/bin mode=755
+  
+
+- name: kubectl -n kube-system apply -f /etc/kubernetes/jupyterhub/nfs-class.yaml
+  shell: kubectl -n kube-system apply -f /etc/kubernetes/jupyterhub/nfs-class.yaml
+
+
+- name: kubectl -n kube-system apply -f /etc/kubernetes/jupyterhub/nfs-provisioner.yaml
+  shell: kubectl -n kube-system apply -f /etc/kubernetes/jupyterhub/nfs-provisioner.yaml
+
+- name: kubectl create -f /etc/kubernetes/jupyterhub/rbac-config.yaml
+  shell: kubectl create -f /etc/kubernetes/jupyterhub/rbac-config.yaml
+  ignore_errors: yes
+
+- name: create /root/.helm/repository/local
+  shell: mkdir -p /root/.helm/repository/local
+
+- name: nohup helm serve --address 0.0.0.0:8879 &
+  shell: nohup helm serve --address 0.0.0.0:8879 &
+
+
+- name: copy init file
+  copy: src={{role_path}}/files/{{item}} dest=/var/lib/yaml/ mode=755
+  with_items:
+    - "helm_patch.sh"
+    - "helm_install.sh"
+
+
+- name: nohup helm serve --address 0.0.0.0:8879 &
+  shell: nohup helm serve --address 0.0.0.0:8879 &
+
+- name: run snap   
+  shell: /var/lib/yaml/init.sh http://{{master_ip_address}}:8879
+
+- name: helm init --service-account tiller --stable-repo-url http://masterIp:8879
+  shell: helm init --service-account tiller --stable-repo-url http://{{master_ip_address}}:8879
+
+
+- name: kubectl create namespace jhub
+  shell: kubectl create namespace jhub
+
+- name: unarchive jupyterhub-0.8.2.tgz
+  unarchive: src={{role_path}}/../../pre-env/jupyterhub-0.8.2.tgz dest=/root
+
+- name: helm package /root/jupyterhub
+  shell: helm package /root/jupyterhub
+
+- name: helm repo update
+  shell: helm repo update
+
+- name: helm search
+  shell: helm search
+  register: helm_search_output
+
+- name: helm patch
+  shell: /var/lib/yaml/helm_patch.sh
+  ignore_errors: yes
+
+- name: install jupyterhub
+  shell: /var/lib/yaml/helm_install.sh
+
+#- name: install jupyterhub
+#  shell: helm install stable/jupyterhub --name jhub --namespace jhub --version 0.8.2 --values /etc/kubernetes/jupyterhub/config.yaml
+#  when: helm_search_output.stdout_lines[2].split('\t')[0] == "stable/jupyterhub"
+

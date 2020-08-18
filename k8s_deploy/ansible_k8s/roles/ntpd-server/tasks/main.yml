@@ -1,0 +1,17 @@
+---
+- name: install ntp
+  yum: name=ntp state=latest
+
+- name: start ntpd
+  service: name=ntpd state=started
+
+- name: config ntp.cfg
+  template: src={{role_path}}/templates/ntp.conf dest=/etc
+
+
+- name: enable ntpd
+  service: name=ntpd enabled=yes
+- name: start ntpd
+  service: name=ntpd state=restarted
+
+  

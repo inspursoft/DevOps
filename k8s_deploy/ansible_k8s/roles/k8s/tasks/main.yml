@@ -1,0 +1,21 @@
+---
+
+- name: create directory to save rpm package
+  shell: mkdir -p /tmp/rpm
+- name: copy docker-ce rpm package
+  copy: src={{role_path}}/../../pre-env/k8s dest=/tmp/rpm
+
+- copy:
+    src: "{{role_path}}/files/k8s.repo"
+    dest: /etc/yum.repos.d/
+    owner: root
+    group: root
+
+- name: install kubelet kubeadm kubectl
+  yum: name=kubelet,kubeadm,kubectl state=latest
+
+- name: systemctl daemon-reload
+  shell: systemctl daemon-reload
+
+- name: systemctl start kubelet && systemctl start kubelet
+  shell: systemctl start kubelet && systemctl enable kubelet

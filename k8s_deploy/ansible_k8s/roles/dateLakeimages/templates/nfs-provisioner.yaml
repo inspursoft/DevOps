@@ -1,0 +1,33 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nfs-client-provisioner
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccount: tiller
+      containers:
+        - name: nfs-client-provisioner
+          image: jupyterhub/nfs-client-provisioner
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: provisioner-jupyterhub
+            - name: NFS_SERVER
+              value: {{nsf_server_ip_address}}
+            - name: NFS_PATH
+              value: {{nfs_dir}}
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: {{nsf_server_ip_address}}
+            path: {{nfs_dir}]

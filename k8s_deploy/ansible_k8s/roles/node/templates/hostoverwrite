@@ -1,0 +1,4 @@
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+hostnameOverride: "{{ansible_default_ipv4.address}}"
+clusterCIDR: "10.253.0.0/16"

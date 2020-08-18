@@ -1,0 +1,12 @@
+---
+- name: timedatectl set-timezone "Asia/Shanghai"
+  shell: timedatectl set-timezone "Asia/Shanghai"
+
+- name: install chrony
+  yum: name=chrony state=latest
+
+- name: enable chronyd
+  service: name=chronyd enabled=yes
+- name: start chronyd
+  service: name=chronyd state=restarted
+

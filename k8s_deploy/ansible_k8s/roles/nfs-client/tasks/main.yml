@@ -1,0 +1,19 @@
+---
+- name: install nfs-utils
+  yum: name=nfs-utils state=latest
+- name: install rpcbind
+  yum: name=rpcbind state=latest
+
+- copy:
+    src: "{{role_path}}/files/nfsclient.sh"
+    dest: /var/nfsclient.sh
+    owner: root
+    group: root
+    mode: 755
+- name: debug nsf_server_ip_address
+  debug: "var={{ nsf_server_ip_address }}"
+  ignore_errors: yes
+- name: run nfs script
+  shell: /var/nfsclient.sh {{ nsf_server_ip_address }}
+  ignore_errors: yes
+  

@@ -1,0 +1,15 @@
+---
+- name:  sysctl -w vm.max_map_count=262144
+  shell: sysctl -w vm.max_map_count=262144
+- name: copy file to  /lib/sysctl.d/
+  copy: src={{role_path}}/templates/90-system.conf dest=/lib/sysctl.d/
+
+- name: create /etc/board/cert
+  file: path=/etc/board/cert state=directory mode=755
+
+- name: copy ssl key
+  copy: src=/tmp/ca/{{master_ip_address}}/etc/kubernetes/pki/ca.key dest=/etc/board/cert/ca-key.pem
+
+- name: copy ssl key
+  copy: src=/tmp/ca/{{master_ip_address}}/etc/kubernetes/pki/ca.crt dest=/etc/board/cert/ca.pem
+

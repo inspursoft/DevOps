@@ -1,0 +1,31 @@
+---
+- name: create docker images save dir
+  shell: mkdir -p {{item}}
+  with_items:
+    - "{{docker_image_dir}}"
+    - "{{shfile_dir}}"
+
+- name: copy image to localion
+  copy: src={{role_path}}/../../pre-env/{{item}} dest={{docker_image_dir}}
+  with_items:
+    - "registry"
+
+- name: load image
+  shell: docker load -i {{docker_image_dir}}/{{item}}
+  with_items:
+    - "registry"
+- name: run registry
+  shell: docker run -d -p 5000:5000 --restart=always -v /data/registry:/var/lib/registry -e REGISTRY_STORAGE_DELETE_ENABLED=true registry
+  ignore_errors: yes
+
+- name: copy registry.sh from files
+  template: src={{role_path}}/templates/{{item}} dest={{shfile_dir}} mode=755
+  with_items:
+    - "run.sh"
+    - "registry.sh"
+
+#- name: push image to registry
+ # shell: /var/lib/sh/run.sh
+  #shell: {{shfile_dir}}{{tmp}}{{registry_sh}} {{registy_ip_address}}
+  #cmd: {{shfile_dir}}
+  

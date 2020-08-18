@@ -1,0 +1,7 @@
+---
+- name: Set IP address variables
+  set_fact:
+    master_ip_address: "{{groups['masters'][0]}}"
+    node_ip_address: "{{ hostvars[groups['nodes'][0]]['ansible_default_ipv4']['address'] }}"
+    etcd_ip_address: "{{ hostvars[groups['etcd'][0]]['ansible_default_ipv4']['address'] }}"
+

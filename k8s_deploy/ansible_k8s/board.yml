@@ -1,0 +1,19 @@
+---
+- hosts: all
+  roles:
+    - {role: set_fact}
+    - {role: hostname}
+    - {role: repo}
+    - {role: common}
+    - {role: chrony}
+- hosts: masters
+  roles:
+    - {role: fetch_ca}
+
+- hosts: board
+  roles:
+    - {role: docker}
+    - {role: board, tags: board}
+    - {role: docker-compose, tags: board}
+
+

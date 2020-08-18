@@ -1,0 +1,8 @@
+#!/bin/sh 
+/sbin/modinfo -F filename br_netfilter > /dev/null 2>&1 
+if [ $? -eq 0 ]; then 
+    /sbin/modprobe br_netfilter
+fi
+# chmod 755 /etc/sysconfig/modules/br_netfilter.modules
+# reboot
+# lsmod | grep br_netfilter

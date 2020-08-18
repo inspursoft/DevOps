@@ -1,0 +1,15 @@
+[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=k8s-loadimages.service
+Requires=k8s-loadimages.service
+
+[Service]
+WorkingDirectory=/var/lib/kubelet
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/kubelet
+ExecStart=/usr/bin/kubelet --pod-manifest-path /etc/kubernetes/manifests --fail-swap-on=false --network-plugin cni --hostname-override={{ ansible_default_ipv4['address'] }} --allow-privileged=true --kubeconfig /etc/kubernetes/kubeletconfig.yaml --cluster-dns=10.254.0.254 --cluster-domain=cluster.local
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

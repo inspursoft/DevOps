@@ -1,0 +1,41 @@
+
+# port
+port: 8080
+# virtual IP
+virtualIP: 10.110.25.100
+#virtual ID
+virtualID: 233
+
+# board release installat package
+board_package: /root/board-offline-installer-1.0-575-g8a881af.tgz
+
+registry_port: 5000
+
+#The IP address, port number and SSH service port number to access an external Gogit server
+#
+##The IP address, port number and trigger job's token to access an external Jenkins server
+jenkins_node_ip: 10.110.25.226
+jenkins_node_ssh_port: 22
+jenkins_node_username: root
+jenkins_node_password: 123456a?
+jenkins_node_volume: /data/jenkins_node
+#
+#
+#sh file dir
+shfile_dir: /var/lib/sh
+docker_image_dir: /var/lib/dockerimages
+registry_sh: registry.sh
+tmp: /
+
+#docker install directory
+docker_dir: /data/docker
+
+# nfs export directroy
+nfs_dir: /data/nfs
+
+#heapster_nodeport from 30000 to 32767
+heapster_influxip: 10.254.0.100
+heapster_nodeport: 31888
+
+
+credential_private_key: 

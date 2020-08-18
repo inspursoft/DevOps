@@ -1,0 +1,44 @@
+# 实例：AWS EC2
+# 公网IP：34.211.134.130
+# 内网IP：172.31.20.161
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "{{master_ip_address}}"        # 如果集群只在内网使用，则填此项为内网IP，如需外网访问，填写公网IP
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+etcd:
+  local:
+    imageRepository: "{{registry_ip_address}}:5000/k8simage"      # etcd镜像的地址。如果不是镜像部署的话不用填也可以
+    #imageTag: "3.2.24"
+    dataDir: "/var/lib/etcd"      # etcd默认数据存储地址，建议不要改                      
+    extraArgs:                    # etcd启动参数
+      name: "master-01"                                                             # 节点名称，建议设为hostname
+      listen-client-urls: "https://127.0.0.1:2379,https://{{etcd_ip_address}}:2379"       # 监听apiserver访问本节点etcd的地址，第二项需改为内网IP
+      advertise-client-urls: "https://{{etcd_ip_address}}:2379"                           # 用于通知其他节点本节点的所包含的客户端地址，需改为内网IP
+      listen-peer-urls: "https://{{etcd_ip_address}}:2380"                                # 本节点与其他节点进行数据交换(选举，数据同步)的监听地址，需改为内网IP
+      initial-advertise-peer-urls: "https://{{etcd_ip_address}}:2380"                     # 告知其他集群节点访问哪个URL来与本节点数据交换
+      initial-cluster: "master-01=https://{{etcd_ip_address}}:2380"                       # 集群所有节点配置，注意名称要和上面的name对应
+    serverCertSANs:    # ServerCertSANs sets extra Subject Alternative Names for the etcd server signing cert.
+    - "{{master_ip_address}}"
+    - "{{etcd_ip_address}}"
+    peerCertSANs:      # PeerCertSANs sets extra Subject Alternative Names for the etcd peer signing cert.
+    - {{etcd_ip_address}}
+networking:
+  serviceSubnet: "10.96.0.0/12"
+  podSubnet: "10.253.0.0/16"        # 修改为目标网络插件的地址
+  dnsDomain: "cluster.local" 
+kubernetesVersion: "v1.15.3"
+apiServer:
+  extraArgs:
+    authorization-mode: "Node,RBAC"
+  timeoutForControlPlane: 4m0s
+controllerManager: {}
+dns:
+  type: CoreDNS
+scheduler: {}
+certificatesDir: /etc/kubernetes/pki
+imageRepository: "{{registry_ip_address}}:5000/k8simage"      # 安装镜像仓库的地址
+clusterName: "kubernetes"

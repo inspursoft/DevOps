@@ -1,0 +1,16 @@
+---
+    
+- name: copy config manifests files on master
+  template: src={{role_path}}/templates/{{item}} dest=/usr/lib/sysctl.d 
+  with_items:
+    - "99-board.conf"
+
+- name: modprobe br_netfilter
+  shell: modprobe br_netfilter
+  ignore_errors: yes 
+- name: sysctl -p /usr/lib/sysctl.d/99-board.conf
+  shell: sysctl -p /usr/lib/sysctl.d/99-board.conf
+  ignore_errors: yes
+
+
+
