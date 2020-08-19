@@ -1,0 +1,11 @@
+---
+- name: absent directory
+  file: path=/tmp/ca state=absent mode=755
+- name: create directory /tmp/ca
+  file: path=/tmp/ca state=directory mode=755
+
+- name: fetch ca.key to pwd
+  fetch: src=/etc/kubernetes/pki/ca.key dest=/tmp/ca mode=755
+
+- name: fetch ca.key to pwd
+  fetch: src=/etc/kubernetes/pki/ca.crt dest=/tmp/ca mode=755

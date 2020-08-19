@@ -1,0 +1,15 @@
+---
+- name: create /var/lib/k8s/images directory
+  file: path=/var/lib/k8s/images state=directory mode=755
+
+- name: copy images to images
+  copy: src={{role_path}}/../../pre-env/images/{{item}} dest=/var/lib/k8s/images
+  with_items:
+    - "jupy.image1.tar"
+    - "jupy.image2.tar"
+
+- name: load istio imags
+  shell: docker load -i /var/lib/k8s/images/{{item}}
+  with_items:
+    - "jupy.image1.tar"
+    - "jupy.image2.tar"

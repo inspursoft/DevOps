@@ -1,0 +1,8 @@
+---
+
+- name: kubeadm token create --print-join-command 
+  shell: kubeadm token create --print-join-command > /tmp/t.sh
+
+- name: copy image to localion
+  fetch: src=/tmp/t.sh dest=/tmp/ mode=755
+

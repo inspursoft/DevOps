@@ -1,0 +1,12 @@
+---
+- name: copy systemd files to master
+  template: src={{role_path}}/templates/{{item}} dest=/var/lib/yaml/
+  with_items:
+    - "apiservice.yaml"
+    - "metrics-server.yaml"
+ 
+- name: kubectl create -f tiller
+  shell: kubectl create -f /var/lib/yaml/{{item}}
+  with_items:
+    - "metrics-server.yaml"
+    - "apiservice.yaml"

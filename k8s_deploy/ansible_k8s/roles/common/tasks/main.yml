@@ -1,0 +1,54 @@
+---
+- copy: 
+    src: "{{role_path}}/files/docker-ce.repo"
+    dest: /etc/yum.repos.d/
+    owner: root
+    group: root
+- name: copy nfs-chrony.repo
+  copy: src={{role_path}}/files/nfs-chrony.repo dest=/etc/yum.repos.d 
+
+- copy:
+    src: "{{role_path}}/files/selinuxConfig"
+    dest: /etc/selinux/config
+
+- name: stop the firewall
+  shell: systemctl stop firewalld.service
+  ignore_errors: yes
+- name: stop the firewall
+  shell: systemctl disable firewalld.service
+  ignore_errors: yes
+- name: set enforce 0
+  shell: set enforce 0
+  ignore_errors: yes
+
+- name: swapoff -a
+  shell: swapoff -a
+  ignore_errors: yes
+
+- name: create directory to save rpm package
+  shell: mkdir -p /tmp/rpm
+
+- name: copy docker-ce rpm package
+  copy: src={{role_path}}/../../pre-env/{{item}} dest=/tmp/rpm
+  with_items:
+    - "docker-ce"
+    - "nfs-chrony"
+
+- name: modprobe br_netfilter
+  shell: modprobe br_netfilter
+
+- name: sysctl.config
+  shell: echo "net.bridge.bridge-nf-call-ip6tables = 1" >> /etc/sysctl.conf 
+
+- name: sysctl.cinfig
+  shell: echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf
+
+- name: copy br_netfilter to /etc/sysconfig/modules/
+  copy: src={{role_path}}/files/br_netfilter.sh dest=/root mode=755 
+
+- name: br_netfilter and swappof
+  shell: /root/br_netfilter.sh
+
+- name: set /proc/sys/net/bridge/bridge-nf-call-iptables with 1
+  shell: echo "1"> /proc/sys/net/bridge/bridge-nf-call-iptables
+

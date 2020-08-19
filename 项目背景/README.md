@@ -8,3 +8,18 @@
 <img alt="云计算标准体系框架全景图" src="../docs/imgs/Cloud Computing Standard Overview.png">  
 研发运营一体化能力成熟度模型框架总共分为八个部分。标准牵头单位是中国信通院，联合业界多家社区、单位，包括云计算开源产业联盟、高效运维社区、百度、阿里、腾讯、京东、浪潮、中国移动、电信、中国银联等等参与。  
 <img alt="研发运营一体化能力运营成熟度模型" src="../docs/imgs/DevOps Maturity Model.png">  
+
+## DevOps 标准分级模型  
+|级别|英文|中文|定义|  
+|----|----|----|----|
+|1级|Initial Level |初始级|在组织局部范围内开始尝试DevOps活动并获得初期效果|  
+|2级|Foundation Level |基础级|在组织较大范围内推行DevOps实践并获得局部效率提升|  
+|3级|Comprehensive Level |全面级|在组织内全面推行DevOps实践并贯穿软件全生命周期获得整体效率提升|  
+|4级|Excellent Level |优秀级|在组织内全面落地DevOps并可按需交付用户价值达到整体效率最优化|  
+|5级|Fabulous Level |卓越级|在组织内全面形成持续改进的文化并不断驱动DevOps在更大范围内取得成功|  
+
+## 《研发运营一体化（DevOps）能力成熟度》评估流程
+
+<img alt="Certificated Process" src="../docs/imgs/Certificated Process.png">  
+
+

@@ -1,0 +1,15 @@
+---
+
+- name: create directory to save rpm package
+  shell: mkdir -p /tmp/rpm
+- name: copy git rpm package
+  copy: src={{role_path}}/../../pre-env/unzip dest=/tmp/rpm
+
+- name: copy unzip.repo to /etc/yum.repo
+  template: src={{role_path}}/templates/unzip.repo dest=/etc/yum.repos.d
+
+- name: install unzip
+  yum: name=unzip state=latest
+
+
+

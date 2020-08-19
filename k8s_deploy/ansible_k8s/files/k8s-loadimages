@@ -1,0 +1,5 @@
+#!/bin/bash
+for image in `ls /var/lib/k8s/images/*`
+do
+docker load -i $image
+done

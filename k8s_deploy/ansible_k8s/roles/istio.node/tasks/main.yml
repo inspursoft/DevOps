@@ -1,0 +1,17 @@
+---
+
+- name: create image dir
+  remote_user: root
+  file: path={{docker_image_dir}} state=directory
+  ignore_errors: True
+
+- name: copy istio images to node
+  copy: src={{role_path}}/../../pre-env/istio/{{item}} dest={{docker_image_dir}}
+  with_items:
+    - "istio.image.1.0.tar"
+
+- name: load istio imags
+  shell: docker load -i {{docker_image_dir}}/{{item}}
+  with_items:
+    - "istio.image.1.0.tar"
+

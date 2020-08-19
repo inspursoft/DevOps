@@ -1,0 +1,23 @@
+---
+- name: get token
+  #command: kubectl get secret tokensecret -n kubeedge -oyaml |grep tokendata|awk '{print $2}'|base64 -d
+  shell: kubectl get secret tokensecret -n kubeedge -oyaml |grep tokendata|awk '{print $2}'|base64 -d
+  register: work_token
+
+- name: 
+  set_fact: worker_join_token={{ work_token.stdout }}
+
+- debug: msg="{{worker_join_token}}"
+
+
+- name: register dummy host
+  add_host:
+    name: "{{master_ip_address}}"
+    kubeedge_token: "{{worker_join_token}}"
+
+
+
+#- name: register dummy host 
+#  add_host:
+#    name: "{{hostvars[groups['masters'][0]]['ansible_default_ipv4']['address']}}"
+#    kubeedge_token: "{{worker_join_token}}"

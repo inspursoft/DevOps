@@ -1,0 +1,41 @@
+---
+
+- name: create directory to save rpm package
+  shell: mkdir -p /tmp/rpm
+- name: copy git rpm package
+  copy: src={{role_path}}/../../pre-env/git dest=/tmp/rpm
+
+- name: copy ruby rpm package
+  copy: src={{role_path}}/../../pre-env/ruby dest=/tmp/rpm
+
+- name: copy unzip rpm package
+  copy: src={{role_path}}/../../pre-env/unzip dest=/tmp/rpm
+
+- name: copy git.repo to /etc/yum.repo
+  template: src={{role_path}}/templates/git.repo dest=/etc/yum.repos.d
+
+- name: install git
+  yum: name=git state=latest
+
+- name: copy ruby.repo to /etc/yum.repo
+  template: src={{role_path}}/templates/ruby.repo dest=/etc/yum.repos.d
+- name: install ruby
+  yum: name=ruby state=latest
+
+- name: copy unzip.repo to /etc/yum.repo
+  template: src={{role_path}}/templates/unzip.repo dest=/etc/yum.repos.d
+
+- name: install unzip
+  yum: name=unzip state=latest
+
+- name: copy travis_yml_script.rb to /usr/bin
+  copy: src={{role_path}}/files/travis_yml_script.rb dest=/usr/bin mode=755
+
+- name: copy jdk 
+  copy: src={{role_path}}/../../pre-env/jdk1.8.0_181.tar dest=/usr/local
+
+- name: unzip jdk 
+  unarchive: src={{role_path}}/../../pre-env/jdk1.8.0_181.tar dest=/usr/local
+
+- name: ln /usr/local/bin/java
+  file: src=/usr/local/jdk1.8.0_181/bin/java dest=/usr/local/bin/java state=link

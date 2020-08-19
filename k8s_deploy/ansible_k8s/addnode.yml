@@ -1,0 +1,29 @@
+---
+- hosts: all
+  roles:
+    - {role: set_fact}
+    - {role: hostname}
+    - {role: repo}
+    - {role: common}
+    - {role: chrony}
+- hosts: masters
+  roles:
+    - {role: ntpd-server}
+    - {role: creat-addnode-cmd}
+- hosts: nodes
+  roles:
+    - {role: ntpd-client}
+- hosts: nodes
+  roles:
+    - {role: docker}
+    - {role: load-k8s-images-node}
+    - {role: k8s}
+    - {role: nfs-client}
+    - {role: node}
+    - {role: copy-addnode-cmd}
+    - {role: dateLakeimages}
+- hosts: nodes
+  roles:
+    - istio.common
+    - istio.node
+  tags: istio

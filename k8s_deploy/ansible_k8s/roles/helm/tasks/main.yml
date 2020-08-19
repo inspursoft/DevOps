@@ -1,0 +1,10 @@
+---
+
+
+- name: copy helm file
+  copy: src={{role_path}}/../../pre-env/images/helm dest=/usr/bin mode=755
+
+#- name: helm init command
+#  shell: helm init
+#  ignore_errors: yes
+  

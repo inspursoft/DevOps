@@ -1,0 +1,7 @@
+---
+
+- name: kubectl delete node 
+  shell: kubectl delete node {{ hostvars[groups['nodes'][0]]['ansible_default_ipv4']['address'] }} 
+- name: 
+  debug: msg="ddd"
+

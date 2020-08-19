@@ -1,0 +1,28 @@
+---
+
+
+
+- name: create /etc/kubeedge/config
+  file: path=/etc/kubeedge/config state=directory mode=755
+
+
+- name: get base64 token
+  shell: echo {{ hostvars[master_ip_address]["kubeedge_token"] }}
+  register: kubeedge_token_list
+
+- debug: msg="{{ kubeedge_token_list.stdout}}"
+
+- name: copy config files on master
+  template: src={{role_path}}/templates/{{item}} dest=/etc/kubeedge/config mode=755
+  with_items:
+    - "edgecore.yaml"
+
+#- name: shell command /opt/kubeedge-v1.3.1-linux-arm64/cloud/cloudcore/cloudcore  --minconfig >/etc/kubeedge/config/cloudcore.yaml
+#  shell: /opt/kubeedge-v1.3.1-linux-arm64/cloud/cloudcore/cloudcore  --minconfig >/etc/kubeedge/config/cloudcore.yaml
+
+#- name: copy kubeletes.sh
+#  copy: src={{role_path}}/files/cloudcore.service dest=/usr/lib/systemd/system mode=755
+
+#- name: systemctl start cloudcore.service && systemctl start cloudcore.service
+#  shell: systemctl start cloudcore.service && systemctl enable cloudcore.service
+

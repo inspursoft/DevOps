@@ -1,0 +1,55 @@
+---
+
+- name: copy init file
+  template: src={{role_path}}/templates/chrony_server.conf dest=/etc/chrony.conf mode=755
+
+- name: create /etc/kubernetes/pki
+  file: path=/etc/kubernetes/pki state=directory mode=755
+
+- name: create directory for save yaml file
+  file: path=/var/lib/yaml state=directory mode=755
+
+- name: copy k8s init file
+  template: src={{role_path}}/templates/k8s-init.yaml dest=/var/lib/yaml mode=755
+
+- name: copy key
+  copy: src={{credential_private_key}}/{{item}} dest=/etc/kubernetes/pki
+  with_items:
+    - "etcd"
+    - "ca.crt"
+    - "ca.key"
+  when: credential_private_key is defined and credential_private_key is not none
+
+- name: systemctl start kubelet && systemctl start kubelet
+  shell: systemctl start kubelet && systemctl enable kubelet
+
+- name: start chronyd
+  service: name=chronyd state=restarted
+- name: start ntpd
+  service: name=ntpd state=restarted
+
+- name: kubeadm init --config k8s-init.yaml
+  shell: kubeadm init --config /var/lib/yaml/k8s-init.yaml
+#  shell: kubeadm init --pod-network-cidr=10.253.0.0/16 --image-repository={{registry_ip_address}}:5000/k8simage
+
+- name: copy kubeletes.sh
+  copy: src={{role_path}}/files/kubeletes.sh dest=/root mode=755
+
+- name: /root/kubeletes.sh
+  shell: /root/kubeletes.sh
+
+- name: copy kube-flannel.yml
+  template: src={{role_path}}/templates/kube-flannel.yml dest=/var/lib/yaml mode=755
+
+- name: run kubectl apply -f /var/lib/yaml/kube-flannel.yml
+  shell: kubectl apply -f /var/lib/yaml/kube-flannel.yml
+
+- name: kubeadm token create --print-join-command 
+  shell: kubeadm token create --print-join-command > /tmp/t.sh
+
+- name: copy image to localion
+  fetch: src=/tmp/t.sh dest=/tmp/ mode=755
+
+- name: kubectl create namespace library
+  shell: kubectl create namespace library
+  ignore_errors: yes
