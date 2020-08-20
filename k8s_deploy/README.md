@@ -47,3 +47,6 @@
 #### How to start the container
      docker run -td -v /data/board/hosts_dir:/tmp/hosts_dir -v /data/board/ansible_k8s/log:/tmp/log -v /data/pre-env:/ansible_k8s/pre-env --env NODE_PASS="123" --env NODE_IP="192.168.122.10" --env MASTER_PASS="123" --env MASTER_IP="192.168.122.44" --env INSTALL_FILE="addnode" --env HOSTS_FILE="addhosts" --env ADMIN_SERVER_IP="10.110.25.227" --env ADMIN_SERVER_PORT="8081" --env LOG_ID="1" --env LOG_TIMESTAMP="1584498363" --name ansible-test k8s_install:1
 
+
+#### If you need the newest version, you can get the newest version from the follow link 
+     https://github.com/inspursoft/Board-Installer.git
