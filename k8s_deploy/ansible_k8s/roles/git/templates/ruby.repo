@@ -1,0 +1,5 @@
+[ruby]
+name=ruby
+baseurl=file:///tmp/rpm/ruby
+enabled=1
+gpgcheck=0

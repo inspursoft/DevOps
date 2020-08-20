@@ -1,0 +1,10 @@
+---
+
+- name: unzip board install package
+  shell: tar zxvf {{board_package}} -C /root
+
+- name: copy config file to /root/.kube
+  template: src={{role_path}}/templates/board.cfg dest=/root/Deploy
+
+- name: install
+  shell: /root//Deploy/install.sh

@@ -1,0 +1,5 @@
+---
+- name: copy docker-compose binary file
+  copy: src={{role_path}}/../../pre-env/docker-compose dest=/usr/bin mode=755
+
+

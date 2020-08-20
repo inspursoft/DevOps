@@ -1,0 +1,77 @@
+---
+
+- name: add arm or amd to add_host
+  add_host:
+    name: "{{master_ip_address}}"
+    arch_name: "amd"
+  when: (ansible_architecture) == "x86_64"
+
+- name: create directory to save deb package
+  shell: mkdir -p /tmp/deb
+
+- name: /usr/lib/systemd/system
+  shell: mkdir -p /usr/lib/systemd/system
+
+- name: copy docker-ce rpm package
+  copy: src={{role_path}}/../../pre-env/{{item}} dest=/tmp/deb
+  with_items:
+    - "docker-arm64"
+  when: (ansible_architecture) == "xx86_64"
+
+- name: copy docker-ce rpm package
+  copy: src={{role_path}}/../../pre-env/docker-ce dest=/tmp/rpm
+  when: (ansible_architecture) == "x86_64"
+
+- name: copy docker-ce.repo to /etc/yum.repo
+  copy: src="{{role_path}}/files/docker-ce.repo" dest=/etc/yum.repos.d/
+  when: (ansible_architecture) == "x86_64"
+
+- name: install docker-ce
+  yum: name=docker-ce state=latest
+  when: (ansible_architecture) == "x86_64"
+
+
+
+- name: install docker
+  shell: dpkg -i /tmp/deb/docker-arm64/*.deb
+  when: (ansible_architecture) == "xx86_64"
+
+- name: unzip kubeedge-v1.3.1-linux-arm64.tar.gz
+  unarchive: src={{role_path}}/../../pre-env/kubeedge-v1.3.1-linux-arm64.tar.gz dest=/opt
+  when: (ansible_architecture) == "xx86_64"
+
+- name: unzip kubeedge-v1.3.1-linux-arm64.tar.gz
+  unarchive: src={{role_path}}/../../pre-env/kubeedge-v1.3.1-linux-amd64.tar.gz dest=/opt
+  when: (ansible_architecture) == "x86_64"
+
+- name: create /etc/kubeedge/config
+  file: path=/etc/kubeedge/config state=directory mode=755
+
+
+- name: get base64 token
+  shell: echo {{ hostvars[master_ip_address]["kubeedge_token"] }}
+  register: kubeedge_token_list
+
+- debug: msg="{{ kubeedge_token_list.stdout}}"
+
+- name: copy config files on master
+  template: src={{role_path}}/templates/{{item}} dest=/etc/kubeedge/config mode=755
+  with_items:
+    - "edgecore.yaml"
+
+
+#- name: shell command /opt/kubeedge-v1.3.1-linux-arm64/edge/edgecore  --minconfig >/etc/kubeedge/config/edgecore.yaml
+#  shell: /opt/kubeedge-v1.3.1-linux-arm64/edge/edgecore  --minconfig >/etc/kubeedge/config/edgecore.yaml
+
+- name: copy edgecore
+  template: src={{role_path}}/files/edgecore.service dest=/usr/lib/systemd/system mode=755
+
+- name: systemctl daemon-reload
+  shell: systemctl daemon-reload
+
+- name: systemctl restart docker && systemctl enable docker
+  shell: systemctl restart docker && systemctl enable docker
+
+- name: systemctl start edgecore.service && systemctl start edgecore.service
+  shell: systemctl start edgecore.service && systemctl enable edgecore.service
+

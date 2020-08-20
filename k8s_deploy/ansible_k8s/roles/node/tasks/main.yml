@@ -1,0 +1,28 @@
+---
+- name: copy init file
+  template: src={{role_path}}/templates/chrony_client.conf dest=/etc/chrony.conf mode=755
+
+- name: create /var/lib/k8s/images
+  shell: mkdir -p /var/lib/k8s/images
+- name: setenforce 
+  shell: setenforce 0
+  ignore_errors: yes
+- name: copy pause images to images
+  copy: src={{role_path}}/../../pre-env/images/{{item}} dest=/var/lib/k8s/images
+  with_items:
+    - "tiller2.14.2.tar"
+    - "heapster.tar"
+    - "metric-server.tar"
+    - "cadvisor-v0.30.2.tar"
+    - "fluentd-elasticsearch-v2.0.2.tar"
+    - "prometheus.tar"
+- name: load flannel image
+  shell: docker load -i /var/lib/k8s/images/{{item}}
+  with_items:
+    - "tiller2.14.2.tar" 
+    - "heapster.tar"
+    - "metric-server.tar"
+    - "cadvisor-v0.30.2.tar"
+    - "fluentd-elasticsearch-v2.0.2.tar"
+    - "prometheus.tar"
+

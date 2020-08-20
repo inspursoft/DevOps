@@ -1,0 +1,17 @@
+---
+- name: kubeadmin reset
+  shell: yes|kubeadm reset
+  ignore_errors: yes
+
+- name: delete rm -rf $HOME/.kube
+  shell: rm -rf $HOME/.kube
+  ignore_errors: yes
+
+- name: delete ip link delete cni0
+  shell: ip link delete cni0
+  ignore_errors: yes
+- name: ip link delete flannel.1
+  shell: ip link delete flannel.1
+  ignore_errors: yes
+- name: iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+  shell: iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X

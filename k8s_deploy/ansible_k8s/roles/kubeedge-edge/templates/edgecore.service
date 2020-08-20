@@ -1,0 +1,10 @@
+[Unit]
+Description=edgecore.service
+
+[Service]
+Type=simple
+ExecStart=/opt/kubeedge-{{kubeedge_version}}-linux-{{ hostvars[master_ip_address]["arch_name"] }}64/edge/edgecore
+
+[Install]
+WantedBy=multi-user.target
+

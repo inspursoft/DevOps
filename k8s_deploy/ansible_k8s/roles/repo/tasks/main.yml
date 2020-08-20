@@ -1,0 +1,7 @@
+---
+- name: create repor backup directory
+  shell: mkdir -p /etc/yum.repos.d/back
+  ignore_errors: yes 
+- name: backup repos file
+  shell: mv /etc/yum.repos.d/* /etc/yum.repos.d/back
+  ignore_errors: yes 

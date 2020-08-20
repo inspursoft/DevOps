@@ -1,0 +1,14 @@
+[Unit]
+Description=k8s load images
+Documentation=http://docs.docker.com
+After=docker.service
+Wants=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/k8s-loadimages
+
+[Install]
+WantedBy=multi-user.target

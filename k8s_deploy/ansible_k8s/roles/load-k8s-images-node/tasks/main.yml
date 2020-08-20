@@ -1,0 +1,8 @@
+---
+
+
+- name: push image to registry
+  shell: docker pull {{registry_ip_address}}:5000/k8simage/{{item}}
+  with_items:
+    - "flannel:v0.11.0-amd64"
+  

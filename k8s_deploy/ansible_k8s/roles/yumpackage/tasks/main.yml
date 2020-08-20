@@ -1,0 +1,16 @@
+---
+
+- name: create directory to save rpm package
+  shell: mkdir -p /tmp/rpm
+- name: copy git rpm package
+  copy: src={{role_path}}/../../pre-env/socat dest=/tmp/rpm
+
+
+- name: copy git.repo to /etc/yum.repo
+  template: src={{role_path}}/templates/socat.repo dest=/etc/yum.repos.d
+
+- name: install socat
+  yum: name=socat state=latest
+
+
+

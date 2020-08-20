@@ -1,0 +1,77 @@
+{                                                                                              
+	"kind": "Pod",                                                                               
+	"apiVersion": "v1",                                                                          
+	"metadata": {                                                                                
+		"name": "kube-controller-manager"                                                          
+	},                                                                                           
+	"spec": {                                                                                    
+		"hostNetwork": true,                                                                       
+		"containers": [                                                                            
+		{                                                                                          
+			"name": "kube-controller-manager",                                                       
+			"image": "gcr.io/google_containers/kube-controller-manager:v1.9.9",        
+			"command": [                                                               
+				"kube-controller-manager",                                               
+				"--logtostderr=true",                                                    
+				"--v=0",                                                                 
+				"--master=http://{{master_ip_address}}:8080",                            
+				"--cluster-cidr=10.253.0.0/16",                                          
+				"--service-cluster-ip-range=10.254.0.0/16",                              
+				"--service-account-private-key-file=/etc/kubernetes/certs/private.pem",                 
+				"--root-ca-file=/etc/kubernetes/certs/ca.crt",                                          
+				"--allocate-node-cidrs=true",                                            
+				"--node-monitor-grace-period=30s",                                                     
+				"--pod-eviction-timeout=15s",
+                                "--horizontal-pod-autoscaler-use-rest-clients=false"                         
+			],                                                                                       
+			"volumeMounts": [                                                                        
+				{                                                                                      
+					"name": "srvkube",                                                                   
+					"mountPath": "/srv/kubernetes",                                                      
+					"readOnly": true                                                                     
+				},
+				{
+					"name": "certs",
+					"mountPath": "/etc/kubernetes/certs",
+					"readOnly": true
+				}                                                                     
+			],                                                                                       
+			"livenessProbe": {                                                                       
+				"httpGet": {                                                                           
+					"scheme": "HTTP",                                                                    
+					"host": "127.0.0.1",                                                                 
+					"port": 10252,                                                                       
+					"path": "/healthz"                                                                   
+				},                                                                                     
+				"initialDelaySeconds": 15,                                                             
+				"timeoutSeconds": 15                                                                   
+			}                                                                                        
+		}                                                                                          
+		],                                                                                         
+		"volumes": [                                                                               
+		{                                                                                          
+			"name": "srvkube",                                                                       
+			"hostPath": {                                                                            
+				"path": "/srv/kubernetes"                                                              
+			}                                                                                        
+		},
+		{
+			"name": "certs",
+			"hostPath": {
+			"path": "/etc/kubernetes/certs"
+		}
+		}
+                                                                                                       
+		]                                                                                          
+	}                                                                                            
+}                                                                                              
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               

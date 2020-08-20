@@ -1,0 +1,25 @@
+---
+
+- name: stop all the container
+  shell: docker stop $(docker ps|awk '{print $1}')
+  ignore_errors: yes
+
+- name: remove imaages
+  shell: docker rmi -f $(docker images|awk '{print $3}')
+  ignore_errors: yes
+  
+- name: install kubelet kubeadm kubectl docker
+  yum: name=kubelet,kubeadm,kubectl,docker-ce,docker-ce-cli state=removed
+
+- name: rm -rf docker dir
+  shell: rm -rf {{docker_dir}}/*
+
+- name: rm /etc/docker
+  file: path={{item}} state=absent mode=755
+  with_items:
+    - "/etc/docker"
+    - "/var/lib/etcd"
+    - "/tmp/t.sh"
+#- name: create /var/lib/yaml
+#  shell: mkdir -p /var/lib/yaml
+

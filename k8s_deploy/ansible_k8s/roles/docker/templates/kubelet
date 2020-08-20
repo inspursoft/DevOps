@@ -1,0 +1,5 @@
+KUBELET_ADDRESS="--address={{node_ip_address}}"
+KUBELET_API_SERVER="--api-servers=http://{{master_ip_address}}:8080"
+KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=registry.access.redhat.com/rhel7/pod-infrastructure:latest"
+KUBELET_ARGS=""
+KUBELET_HOSTNAME="--hostname-override={{node_ip_address}}"

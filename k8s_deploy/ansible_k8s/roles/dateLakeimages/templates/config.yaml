@@ -1,0 +1,41 @@
+singleuser:
+  storage:
+    capacity: 2Gi
+    dynamic:
+      storageClass: managed-nfs-storage
+  defaultUrl: "/lab"
+  memory:
+    limit: 4G
+    guarantee: 1G
+  cpu:
+    limit: 4
+    guarantee: .5
+  image:
+    name: jupyterhub/k8s-singleuser-sample
+    tag: 0.8.2
+  profileList:
+    - display_name: "sample environment"
+      description: "sample environment description"
+      default: true
+    - display_name: "sample environment2"
+      description: "sample environment description2"
+      kubespawner_override:
+        image: 10.111.25.182:5000/jupyterhub/k8s-singleuser-sample:0.8.2
+hub:
+  db:
+    pvc:
+      storageClassName: managed-nfs-storage
+prePuller:
+  pause:
+    image:
+      name: google_containers/pause
+      tag: '3.0'
+proxy:
+  service:
+    type: NodePort
+    nodePorts:
+      http: 30006
+  secretToken: "9761be2b038e8344345afa00f52749881836a3a9fbd2914e467f4e848ae475d9"
+auth:
+  admin:
+    users: [superadmin]
