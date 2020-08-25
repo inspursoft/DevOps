@@ -1,5 +1,0 @@
-[git]
-name=git
-baseurl=file:///tmp/rpm/git
-enabled=1
-gpgcheck=0

@@ -1,5 +1,0 @@
-[docker-ce-stable]
-name=test
-baseurl=http://10.110.13.222/KUBERNETES/
-enabled=1
-gpgcheck=0
