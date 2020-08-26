@@ -1,5 +1,0 @@
----
-- name: kubectl cordon mast
-  shell: kubectl cordon {{master_ip_address}}
-
-
