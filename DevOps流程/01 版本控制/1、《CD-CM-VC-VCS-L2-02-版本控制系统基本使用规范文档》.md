@@ -1,9 +1,12 @@
 
 # CD-CM-VC-VCS-L2-02-版本控制系统基本使用规范文档
 
-<img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png">
-
-## 能力项  [版本控制]
+<table border="0">
+  <tr>
+    <th><img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png"></th>
+    <th>能力项  [版本控制]</th>
+  </tr>
+</table>
 
 # 简介
 
