@@ -1,10 +1,10 @@
 
 # CD-CM-VC-VCS-L2-02-版本控制系统基本使用规范文档
 
-<table border="0">
+<table border="0" bordercolor="#FFFFFF">
   <tr>
     <th><img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png"></th>
-    <th>能力项  [版本控制]</th>
+    <th><h1 style="font-size:150%">能力项  [版本控制]</h1></th>
   </tr>
 </table>
 
