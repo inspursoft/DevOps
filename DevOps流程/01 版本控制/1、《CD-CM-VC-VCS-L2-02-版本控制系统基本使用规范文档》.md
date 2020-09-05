@@ -1,7 +1,12 @@
 
 # CD-CM-VC-VCS-L2-02-版本控制系统基本使用规范文档
 
-## 能力项  [版本控制]
+<table border="0" bordercolor="#FFFFFF">
+  <tr>
+    <th><img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png"></th>
+    <th><h1 style="font-size:150%">能力项  [版本控制]</h1></th>
+  </tr>
+</table>
 
 # 简介
 
@@ -37,7 +42,7 @@
 
 # 3.  版本状态变迁规则
 
-![代码分支](../../docs/imgs/code branch.png)
+<img alt="代码分支" src="../../docs/imgs/DevOps流程/code_branch.png">
 
 -  release 分支合并触发自动化部署过程
 
