@@ -24,7 +24,7 @@ DevOps项目的成熟度不仅仅依赖工具和流程，更重要的是不断�
 - [DevOps成熟度评级经验]()
 - [Demo]()
 - [主要项目贡献者](https://github.com/inspursoft/DevOps/graphs/contributors)
-- [参与贡献方式]()
+- [参与贡献方式](CONTRIBUTING.md)
 - [开源协议](LICENSE)
 
 
