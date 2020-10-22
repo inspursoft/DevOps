@@ -15,7 +15,7 @@
 
 # 分层测试架构前言
 
-<img alt="Testing Process" src="../../docs/imgs/DevOps流程/Testing_Process.png">
+<img alt="Testing Process" src="../../docs/imgs/DevOps流程/Testing Process.png">
 
 根据测试分层的策略，在测试环境中提供四种测试服务：
 
