@@ -13,8 +13,8 @@
 | Board |      | 容器云管理平台 | http://github.com/inspursoft/board/ (private project) |
 | Prometheus |     | 监控管理工具 | https://prometheus.io/ |
 | Helm |     | 基于容器的包管理工具 | https://helm.sh/ |
-| Vagrant |     | 虚拟机调动平台  | https://www.vagrantup.com/ |
-| VirtulBox|     | 虚拟机调动平台  | https://www.virtualbox.org/ |
+| Vagrant |     | 虚拟机调度平台  | https://www.vagrantup.com/ |
+| VirtulBox|     | 虚拟机调度平台  | https://www.virtualbox.org/ |
 | ITP |     | 测试及质量管理平台 | http://git.inspur.com/testcenter/testservice-ui (private project) |
 | appium-service |       | UI测试服务 | http://appium.io/ |
 | JUnit |     | 单元测试工具 | https://junit.org/junit5/ |
@@ -30,3 +30,7 @@
 |apache-ant|     | 前端 | http://ant.apache.org|
 
 private project: 正在开源过程中，可以采用类似产品代替。具体问题可以在Issue区进行讨论。
+
+## 参考最佳实践
+
+<img alt="DevOps Tools" src="../docs/imgs/DevOps流程/devops_process.png">
