@@ -29,7 +29,7 @@
 
 # 最佳实践
 
-<img alt="虚机服务化构建解决方案" src="../../docs/imgs/DevOps流程/CICT VM Solution.png">
+<img alt="虚机服务化构建解决方案" src="../../docs/imgs/DevOps流程/CICT_VM_Solution.png">
 
 *一致性测试环境生成：通过代码化脚本生成集成和测试服务虚拟机，保证开发测试环境的一致性
 *环境产成品仓库：按不同功能标签存储多种定义好的一致性虚机环境，项目按需使用
