@@ -1,0 +1,21 @@
+appVersion: 3.15.2-01
+description: Sonatype Nexus is an open source repository manager
+home: https://www.sonatype.com/nexus-repository-oss
+icon: http://www.sonatype.org/nexus/content/uploads/2015/06/Nexus-Logo.jpg
+keywords:
+- artifacts
+- dependency
+- management
+- sonatype
+- nexus
+- repository
+maintainers:
+- email: rjkernick@gmail.com
+  name: rjkernick
+name: sonatype-nexus
+sources:
+- https://github.com/sonatype/nexus-public
+- https://github.com/travelaudience/docker-nexus
+- https://github.com/travelaudience/kubernetes-nexus
+- https://github.com/travelaudience/docker-nexus-backup
+version: 1.16.3
