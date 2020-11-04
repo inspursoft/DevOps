@@ -46,7 +46,7 @@
 
 通过移动测试云平台，将移动真机的UI自动化的测试用例发布到不同机型上做测试，并将多种机型的测试报告作为移动兼容性测试是否通过的依据并进行反馈。
 
-![Mobile UI Test](../../docs/imgs/DevOps流程/Mobile_UI_Test.png.png)
+![Mobile UI Test](../../docs/imgs/DevOps流程/Mobile_UI_Test.png)
 
 ## Appium
 
