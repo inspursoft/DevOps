@@ -1,6 +1,11 @@
 # CD-TM-AT-AD-L3-01-代码级单元自动化测试设计文档
 
-## 能力项  [自动化测试]
+<table border="0" bordercolor="#FFFFFF">
+  <tr>
+    <th><img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png"></th>
+    <th><h1 style="font-size:150%">能力项  [自动化测试]</h1></th>
+  </tr>
+</table>
 
 # 前言
 
@@ -20,7 +25,7 @@
 
 在敏捷方法中，持续集成是其基石，持续集成的核心是自动化测试。测试金字塔的概念来自Mike Cohn，在他的书《Succeeding with Agile》中有详细描述：测试金字塔最底层是单元测试，然后是业务逻辑测试，最后是端到端的测试（GUI或CLI）。
 
-![Testing Layer](../../docs/imgs/DevOps流程/Testing_Layer.png)
+<img alt="Testing Layer" src="../../docs/imgs/DevOps流程/Testing_Layer.png"
 
 这个比喻非常形象，它让你一眼就知道测试是需要分层的。它还告诉你每一层需要写多少测试。根据 Mike Cohn 的测试金字塔，建议测试组合应该由以下三层组成（自下往上分别是）：
 
@@ -748,4 +753,4 @@ class TestClass:
 
 运行python3 -m pytest test_main.py --html=report/test_main.html产生测试报告。
 
-![API test](../../docs/imgs/DevOps流程/API_test.png)
+<img alt="API test" src="../../docs/imgs/DevOps流程/API_test.png">

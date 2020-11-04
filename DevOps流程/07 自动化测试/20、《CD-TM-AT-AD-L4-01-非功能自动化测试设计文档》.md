@@ -1,6 +1,11 @@
 # CD-TM-AT-AD-L4-01-非功能自动化测试设计文档
 
-## 能力项  [自动化测试]
+<table border="0" bordercolor="#FFFFFF">
+  <tr>
+    <th><img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png"></th>
+    <th><h1 style="font-size:150%">能力项  [自动化测试]</h1></th>
+  </tr>
+</table>
 
 # 前言
 
@@ -46,7 +51,7 @@
 
 通过移动测试云平台，将移动真机的UI自动化的测试用例发布到不同机型上做测试，并将多种机型的测试报告作为移动兼容性测试是否通过的依据并进行反馈。
 
-![Mobile UI Test](../../docs/imgs/DevOps流程/Mobile_UI_Test.png)
+<img alt="Mobile UI Test" src="../../docs/imgs/DevOps流程/Mobile_UI_Test.png">
 
 ## Appium
 
@@ -66,7 +71,7 @@ Appium是一个开源的自动化测试工具，其支持iOS和安卓平台上�
 
 Appium 的架构是一个用Node.js编写的HTTP server，它创建、并管理多个 WebDriver sessions 来和不同平台交互，如 iOS ，Android等等。
 
-![Interface Proxy](../../docs/imgs/DevOps流程/Interface_Proxy.jpg)
+<img alt="Interface Proxy" src="../../docs/imgs/DevOps流程/Interface_Proxy.jpg">
 
 Appium 开始一个测试后，就会在被测设备（手机）上启动一个 server ，监听来自 Appium server的指令. 每种平台像 iOS 和Android都有不同的运行、和交互方式。所以Appium会用某个桩程序“侵入”该平台，并接受指令，来完成测试用例的运行。
 
@@ -181,7 +186,7 @@ Docker-Compose是Docker的一种编排服务，是一个用于在Docker上定义
 
 通过Docker-Compose用户可以很容易地用一个配置文件定义一个多容器的应用，然后使用一条指令安装这个应用的所有依赖，完成构建。Docker-Compose解决了容器与容器之间如何管理编排的问题。
 
-![Docker Compose](../../docs/imgs/DevOps流程/Docker_Compose.png)
+<img alt="Docker Compose" src="../../docs/imgs/DevOps流程/Docker_Compose.png">
 
 docker compose是一个工具集，用于定义和运行同时依赖于多个docker容器的应用程序。在使用docker compose时，通常会用到YAML文件来配置你的应用程序服务。然后通过该配置文件，你就可以很简单的创建和启动配置中的所有服务。
 
@@ -263,7 +268,7 @@ $ vi requirements.txt
 
    在这个例子中，定义了Multi-Container应用程序，它在compose中有`web`和`redis`容器。
 
-   ![docker-compose sample](../../docs/imgs/DevOps流程/docker-compose_sample.png)
+   <img alt="docker-compose sample" src="../../docs/imgs/DevOps流程/docker-compose_sample.png">
 
 6. 运行Multi-Container应用
 
@@ -310,7 +315,7 @@ $ vi requirements.txt
    
    9. 通过浏览器访问172.16.194.154:5000
 
-![docker-compose sample](../../docs/imgs/DevOps流程/docker-compose_sample_1.png)
+   <img alt="docker-compose sample" src="../../docs/imgs/DevOps流程/docker-compose_sample_1.png">
 
    10.  再次访问，计数器增加1.（redis上的计数器增加）
    11.  显示日志
@@ -405,7 +410,7 @@ host的任意端口。
    
       现在有10个Web容器正在运行。
    
-      ![docker-compose sample](../../docs/imgs/DevOps流程/docker-compose_sample_2.png)
+      <img alt="docker-compose sample" src="../../docs/imgs/DevOps流程/docker-compose_sample_2.png">
 
 2. 检查正在运行的容器
 
@@ -715,7 +720,7 @@ SonarQube为静态代码检查工具，采用B/S架构，帮助检查代码缺�
 
 通过客户端插件分析源代码，sonar客户端可以采用IDE插件、Sonar-Scanner插件、Ant插件和Maven插件方式，并通过各种不同的分析机制对项目源代码进行分析和扫描，并把分析扫描后的结果上传到sonar的数据库，通过sonar web界面对分析结果进行管理。
 
-![sonarqube arch](../../docs/imgs/DevOps流程/sonarqube_arch.png)
+<img alt="sonarqube arch" src="../../docs/imgs/DevOps流程/sonarqube_arch.png">
 
 ## Bugcleaner
 

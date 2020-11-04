@@ -1,6 +1,11 @@
 # CD-TM-CQ-QR-L2-01-代码质量规约文档
 
-## 能力项  [代码质量管理]
+<table border="0" bordercolor="#FFFFFF">
+  <tr>
+    <th><img alt="title pic" src="../../docs/imgs/DevOps流程/DevOps_Gears.png"></th>
+    <th><h1 style="font-size:150%">能力项  [代码质量管理]</h1></th>
+  </tr>
+</table>
 
 # 前言
 
@@ -84,7 +89,7 @@
 
 代码质量控制流程将自动化代码质量检查和Code Review与代码流动的过程绑定，从而保证所有上线的代码都经过机器与人工多个环节的检查。
 
-![代码评审流程](../../docs/imgs/DevOps流程/code_branch.png)
+<img alt="代码评审流程" src="../../docs/imgs/DevOps流程/code_branch.png">
 
 执行自动化代码质量检查的时机：
 
@@ -451,7 +456,7 @@ Sonar缺省从Bug/Vulnerability/Code Smell维度进行划分，同时不同维�
 
 `Quality Profiles` -> `Create`->` Restore Profiles`，单击`Restore`，即可生成Sonar的新的Profile。
 
-![规则备份](../../docs/imgs/DevOps流程/Sonarqube_Config_Backup.png)
+<img alt="规则备份" src="../../docs/imgs/DevOps流程/Sonarqube_Config_Backup.png">
 
 API导入规则的方法
 
@@ -479,7 +484,7 @@ curl -X POST -uadmin:admin http://localhost:32003/api/qualityprofiles/restore --
 
 点击质量配置，通过active和inactive选项，可分别对已启用规则进行禁用挂起，已禁用规则启用。需要注意：sonarqube内置的规则是没办法启用禁用的。
 
-![扫描规则](../../docs/imgs/DevOps流程/Sonarqube_Policy.png)
+<img alt="扫描规则" src="../../docs/imgs/DevOps流程/Sonarqube_Policy.png">
 
 ## 删除规则
 
@@ -517,7 +522,7 @@ public void test() {
 在上面的代码中，测试用例里面调用了类JavaCheckVerifier的verify方法，传入一个文件路径（需要被扫描的测试代码）以及一个
 BadMethodNameCheck对象（自定义的规则）：
 
-![19](../../docs/imgs/DevOps流程/Sonarqube_Plugin.png)
+<img alt="Plugin" src="../../docs/imgs/DevOps流程/Sonarqube_Plugin.png">
 
 传入了文件以及规则后，sonar内部进行了一系列的scanFile操作，大多数是进行一些前置准备。比较重要的是visitorsBridge、astScanner、ast等对象。
 
@@ -554,16 +559,16 @@ class BadMethodName {
 
 全局的语法树如下：可以获取代码中的该类是否是接口、类名以及类中定义的类变量以及方法。
 
-![Sonar Code Scaner Plugin_1](../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Plugin_1.png)
+<img alt="Sonar Code Scaner Plugin_1" src="../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Plugin_1.png">
 
 针对类变量的语法树如下：可以获取到变量名称、类型、修饰类型。
 
-![Sonar Code Scaner Plugin_2](../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Plugin_2.png)
+<img alt="Sonar Code Scaner Plugin_2" src="../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Plugin_2.png">
 
 针对方法生成的语法树如下：可以获取到方法名、返回值、修饰符、是否是构造函数和代码块，所有在
 **{ code }** 内的又会被解析成一个**blockTree**。
 
-![Sonar Code Scaner Plugin_3](../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Plugin_3.png)
+<img alt="Sonar Code Scaner Plugin_3" src="../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Plugin_3.png">
 
 通过sonar的前置操作解析，可以得到一套标准化的语法树。
 
@@ -623,7 +628,7 @@ public void reportIssue(Tree tree, String message) {
 
 一般在用户规则中，当触犯规则后需要进行错误校验，流程图如下。
 
-![Sonar Code Scaner Process](../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Process.png)
+<img alt="Sonar Code Scaner Process" src="../../docs/imgs/DevOps流程/Sonar_Code_Scaner_Process.png">
 
 从流程图可以很清楚的发现，开始也是一系列 **reportIssues** 结果收集，一直到
 **VistorsBridgeForTests** 中才开始进行触发规则的内容解析操作，获取了触犯规则的代码行数以及字符串具体的位置，记录在**textSpan**变量中，结果保存在**issues**列表中。
