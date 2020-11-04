@@ -25,7 +25,7 @@
 
 在敏捷方法中，持续集成是其基石，持续集成的核心是自动化测试。测试金字塔的概念来自Mike Cohn，在他的书《Succeeding with Agile》中有详细描述：测试金字塔最底层是单元测试，然后是业务逻辑测试，最后是端到端的测试（GUI或CLI）。
 
-<img alt="Testing Layer" src="../../docs/imgs/DevOps流程/Testing_Layer.png">
+<img alt="Testing Layer" src="../../docs/imgs/DevOps流程/Testing_Layer.png"
 
 这个比喻非常形象，它让你一眼就知道测试是需要分层的。它还告诉你每一层需要写多少测试。根据 Mike Cohn 的测试金字塔，建议测试组合应该由以下三层组成（自下往上分别是）：
 

@@ -23,7 +23,9 @@
 
 在敏捷方法中，持续集成是其基石，持续集成的核心是自动化测试。测试金字塔的概念来自Mike Cohn，在他的书《Succeeding with Agile》中有详细描述：测试金字塔最底层是单元测试，然后是业务逻辑测试，最后是端到端的测试（GUI或CLI）。
 
+
 <img alt="Testing Layer" src="../../docs/imgs/DevOps流程/Testing_Layer.png">
+
 
 这个比喻非常形象，它让你一眼就知道测试是需要分层的。它还告诉你每一层需要写多少测试。
 
@@ -67,7 +69,9 @@ Appium是一个开源的自动化测试工具，其支持iOS和安卓平台上�
 
 Appium 的架构是一个用Node.js编写的HTTP server，它创建、并管理多个 WebDriver sessions 来和不同平台交互，如 iOS ，Android等等。
 
+
 <img alt="Interface Proxy" src="../../docs/imgs/DevOps流程/Interface_Proxy.jpg">
+
 
 Appium 开始一个测试后，就会在被测设备（手机）上启动一个 server ，监听来自 Appium server的指令. 每种平台像 iOS 和Android都有不同的运行、和交互方式。所以Appium会用某个桩程序“侵入”该平台，并接受指令，来完成测试用例的运行。
 
