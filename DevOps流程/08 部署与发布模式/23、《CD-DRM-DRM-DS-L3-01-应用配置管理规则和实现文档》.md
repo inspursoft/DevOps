@@ -22,7 +22,7 @@ gitlab中配置变量名和值，点击settings，ci／cd，找到variables，�
 
 注意，protected如果打勾，则只有protected分支和打了tag的ci能够获取到这个变量。
 
-![gitlab_variables](..\..\docs\imgs\DevOps流程\gitlab_variables.png)
+![gitlab_variables](../../docs/imgs/DevOps流程/gitlab_variables.png)
 
 gitlab的ci中获取gitlab中设置的变量如下：
 
