@@ -5,7 +5,7 @@
 
 | 组件 | 服务地址 | 简介 | 工具源 |
 | ------ | ------ |------ | ------ |
-| Gitlab |     | 代码管理和流水线驱动 | https://github.com/ |
+| Gitlab |     | 代码管理和流水线驱动 | https://gitlab.com/ |
 | Sonarqube |     | 代码扫描和单元测试平台 | https://www.sonarqube.org |
 | Nexus |       | 产成品和镜像仓库 | https://www.nexusmods.com/ |
 | Kubernetes |       | 容器调度平台 | https://kubernetes.io/ |
