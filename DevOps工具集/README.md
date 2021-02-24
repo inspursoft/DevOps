@@ -10,12 +10,12 @@
 | Nexus |       | 产成品和镜像仓库 | https://www.nexusmods.com/ |
 | Kubernetes |       | 容器调度平台 | https://kubernetes.io/ |
 | Keeper |      | 虚机调度及Gitlab回调集成服务平台 | https://github.com/inspursoft/keeper |
-| Board |      | 容器云管理平台 | http://github.com/inspursoft/board/ (private project) |
+| Board |      | 容器云管理平台 | http://github.com/inspursoft/board/ |
 | Prometheus |     | 监控管理工具 | https://prometheus.io/ |
 | Helm |     | 基于容器的包管理工具 | https://helm.sh/ |
 | Vagrant |     | 虚拟机调度平台  | https://www.vagrantup.com/ |
 | VirtulBox|     | 虚拟机调度平台  | https://www.virtualbox.org/ |
-| ITP |     | 测试及质量管理平台 | http://git.inspur.com/testcenter/testservice-ui (private project) |
+| ITP |     | 测试及质量管理平台 | http://git.inspur.com/testcenter/testservice (private project) |
 | appium-service |       | UI测试服务 | http://appium.io/ |
 | JUnit |     | 单元测试工具 | https://junit.org/junit5/ |
 | Swagger |     | API描述工具 | http://swagger.io/ |
